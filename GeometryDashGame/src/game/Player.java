@@ -38,8 +38,6 @@ public class Player extends Polygon implements KeyListener {
 				isFalling = false;
 				this.rotation = 0;
 			}
-		} else if (this.position.y >= BASE_HEIGHT){
-			this.placeOnGround();
 		}
 	}
 	
@@ -49,6 +47,10 @@ public class Player extends Polygon implements KeyListener {
 	
 	public boolean getIsFalling() {
 		return isFalling;
+	}
+	
+	public boolean isWithinPlatformWidth(Platform plat) {
+		return (plat.findLeftMostPoint() <= this.findRightmostPoint() && plat.findRightmostPoint() >= this.findLeftMostPoint());
 	}
 
 	@Override

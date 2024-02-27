@@ -153,5 +153,27 @@ class Polygon {
 			}
 			return ans;
 		}
+		
+		// student written
+		public double findRightmostPoint() {
+			double ans = 0;
+			for (Point p : this.getPoints()) {
+				if (p.x > ans) {
+					ans = p.x;
+				}
+			}
+			return ans;
+		}
+		
+		// student written
+			public double findLeftMostPoint() {
+				double ans = 1000;
+				for (Point p : this.getPoints()) {
+					if (p.x < ans) {
+						ans = p.x;
+					}
+				}
+				return ans;
+			}
 
 }
