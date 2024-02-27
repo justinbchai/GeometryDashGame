@@ -49,17 +49,14 @@ class GeometryDash extends Game {
 			if (player.collides(obstacle)) {
 				this.gameOver = true;
 			}
-			if (player.getIsFalling()) {
-				if (player.collides(platform)) {
-					if(player.findLowestPoint() - 5 <= platform.findHighestPoint()) {
-						player.placeOn(platform);
-						player.setIsFalling(false);
-					} else {
-						this.gameOver = true;
-					}
+			if (player.collides(platform)) {
+				if(player.findLowestPoint() - 2 <= platform.findHighestPoint()) {
+					player.placeOn(platform);
+					player.setIsFalling(false);
+				} else {
+					this.gameOver = true;
 				}
 			}
-
 		} else {
 			Font currentFont = brush.getFont();
 			Font newFont = currentFont.deriveFont(currentFont.getSize() * 8.5F);
