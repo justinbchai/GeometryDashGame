@@ -51,7 +51,7 @@ class GeometryDash extends Game {
 			}
 			if (player.getIsFalling()) {
 				if (player.collides(platform)) {
-					if(player.findLowestPoint() <= platform.findHighestPoint()) {
+					if(player.findLowestPoint() - 5 <= platform.findHighestPoint()) {
 						player.placeOn(platform);
 						player.setIsFalling(false);
 					} else {
