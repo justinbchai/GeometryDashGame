@@ -85,6 +85,11 @@ class Polygon {
 				return true;
 			}
 		}
+		for (Point p : this.getPoints()) {
+			if (other.contains(p)) {
+				return true;
+			}
+		}
 		return false;
 	}
 	
