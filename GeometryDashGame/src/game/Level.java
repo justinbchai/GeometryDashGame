@@ -36,7 +36,7 @@ public class Level{
         			if (player.collides(obstacle)) {
         				this.gameOver = true;
         			}
-            		if (obstacle.findRightmostPoint() < 0) {
+            		if (obstacle.findRightmostPoint() <= 0) {
             			reassignPoint(obstacle, obstacleCoords);
             		}
             		obstacle.paint(brush);
@@ -56,7 +56,7 @@ public class Level{
         					this.gameOver = true;
         				}
         			}
-            		if (plat.findRightmostPoint() < 0) {
+            		if (plat.findRightmostPoint() <= 0) {
             			reassignPoint(plat, platformCoords);
             		}
             		plat.paint(brush);
@@ -82,6 +82,10 @@ public class Level{
     		poly.position = points.get(0);
         	points.remove(0);
     	}
+    }
+    
+    public Player getPlayer() {
+    	return this.player;
     }
     
 }
