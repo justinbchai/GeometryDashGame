@@ -25,7 +25,7 @@ class GeometryDash extends Game {
 		this.gameOver = false;
 		player = new Player();
 		ground = new Ground();
-		platform = new Platform(0, 0, 100, 20, 1300);
+		platform = new Platform(0, 0, 100, 50, 1300);
 		obstacle = new Obstacle(new Point[] {new Point(20, 0), new Point(0, 20), new Point(40, 20)});
 		
 		this.addKeyListener(player);
@@ -49,11 +49,16 @@ class GeometryDash extends Game {
 			if (player.collides(obstacle)) {
 				this.gameOver = true;
 			}
+			if (!player.getIsFalling() && !player.isWithinPlatformWidth(platform) && player.position.y < Player.BASE_HEIGHT) {
+				player.setIsFalling(true);
+			}
 			if (player.collides(platform)) {
-				if(player.findLowestPoint() - 2 <= platform.findHighestPoint()) {
+				if(player.isAbove(platform)) {
 					player.placeOn(platform);
 					player.setIsFalling(false);
+					player.setVel(0);
 				} else {
+
 					this.gameOver = true;
 				}
 			}
