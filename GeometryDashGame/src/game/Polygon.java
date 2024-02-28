@@ -144,36 +144,41 @@ class Polygon {
 	}
 	
 	// student written
-		public double findHighestPoint() {
-			double ans = 1000;
-			for (Point p : this.getPoints()) {
-				if (p.y < ans) {
-					ans = p.y;
-				}
+	public double findHighestPoint() {
+		double ans = 1000;
+		for (Point p : this.getPoints()) {
+			if (p.y < ans) {
+				ans = p.y;
 			}
-			return ans;
 		}
+		return ans;
+	}
 		
-		// student written
-		public double findRightmostPoint() {
-			double ans = 0;
-			for (Point p : this.getPoints()) {
-				if (p.x > ans) {
-					ans = p.x;
-				}
+	// student written
+	public double findRightmostPoint() {
+		double ans = 0;
+		for (Point p : this.getPoints()) {
+			if (p.x > ans) {
+				ans = p.x;
 			}
-			return ans;
 		}
-		
-		// student written
-			public double findLeftMostPoint() {
-				double ans = 1000;
-				for (Point p : this.getPoints()) {
-					if (p.x < ans) {
-						ans = p.x;
-					}
-				}
-				return ans;
+		return ans;
+	}
+	
+	// student written
+	public double findLeftMostPoint() {
+		double ans = 1000;
+		for (Point p : this.getPoints()) {
+			if (p.x < ans) {
+				ans = p.x;
 			}
+		}
+		return ans;
+	}
+	
+	//student written
+	public boolean isAbove(Polygon other) {
+		return (this.position.y < other.position.y);
+	}
 
 }

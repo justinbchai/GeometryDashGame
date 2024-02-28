@@ -50,14 +50,15 @@ class GeometryDash extends Game {
 				this.gameOver = true;
 			}
 			if (!player.getIsFalling() && !player.isWithinPlatformWidth(platform) && player.position.y < Player.BASE_HEIGHT) {
-				System.out.println("here");
 				player.setIsFalling(true);
 			}
 			if (player.collides(platform)) {
-				if(player.findLowestPoint() - 2 <= platform.findHighestPoint()) {
+				if(player.isAbove(platform)) {
 					player.placeOn(platform);
 					player.setIsFalling(false);
+					player.setVel(0);
 				} else {
+
 					this.gameOver = true;
 				}
 			}
