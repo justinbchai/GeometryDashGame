@@ -11,33 +11,34 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-class GeometryDash extends Game {
+class GeometryDash extends Game implements KeyListener{
 	static int counter = 0;
-	private Obstacle obstacle;
-	private Platform platform;
+
 	private Level level;
 	
 	public GeometryDash() {
 		super("YourGameName!", 800, 600);
 		this.setFocusable(true);
 		this.requestFocus();
-		/*
+		
 		Obstacle[] obstacles = new Obstacle[10];
 		Platform[] platforms = new Platform[10];
-		*/
-		//for (int i = 0; i < 10; i++) {
-			obstacle = new Obstacle(new Point[] {new Point(20, 0), new Point(0, 20), new Point(40, 20)});
-			platform = new Platform(0, 0, 100, 50, 1300);
-		//}
-
-		ArrayList<Point> obstaclePoints = new ArrayList<>(), platPoints = new ArrayList<>();
+		
 		for (int i = 0; i < 10; i++) {
-			obstaclePoints.add(new Point(1000, 400));
-			platPoints.add(new Point(1000, 400));
+			obstacles[i] = new Obstacle(new Point[] {new Point(20, 0), new Point(0, 20), new Point(40, 20)});
+			platforms[i] = new Platform(0, 0, 100, 50, 1300);
 		}
-		level = new Level(new Obstacle[] {obstacle}, new Platform[] {platform}, obstaclePoints, platPoints);
+
+		Point[] obstaclePointsBlueprint = new Point[30], platPointsBlueprint = new Point[30];
+		
+		for (int i = 0; i < 30; i++) {
+			obstaclePointsBlueprint[i] = new Point(1000 + i * 100, 100 + i * 10);
+			platPointsBlueprint[i] = new Point(1000 + i * 100, 100 + i - 10);
+		}
+		level = new Level(obstacles, platforms, obstaclePointsBlueprint, platPointsBlueprint);
 		
 		this.addKeyListener(level.getPlayer());
+		this.addKeyListener(this);
 	}
 
 	public void paint(Graphics brush) {
@@ -55,5 +56,25 @@ class GeometryDash extends Game {
 	public static void main(String[] args) {
 		GeometryDash a = new GeometryDash();
 		a.repaint();
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER){
+			level.gameOver = false;
+			level.setLevel();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
