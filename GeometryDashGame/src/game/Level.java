@@ -66,7 +66,6 @@ public class Level {
 							obstacle.position = obstacleCoords.remove(0);
 						} else {
 							moreObstacles = false;
-							//break;
 						}
 					}
 					obstacle.paint(brush);
@@ -91,7 +90,6 @@ public class Level {
 
 						} else {
 							morePlats = false;
-							//break;
 						}
 
 					}

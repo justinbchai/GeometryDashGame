@@ -49,6 +49,7 @@ class GeometryDash extends Game implements KeyListener{
 		// counter is incremented and this message printed
 		// each time the canvas is repainted
 		brush.setColor(Color.white);
+		brush.drawString("Conter: " + counter++, 30, 20);
 		level.paintLevel(brush);
 		
 	}
