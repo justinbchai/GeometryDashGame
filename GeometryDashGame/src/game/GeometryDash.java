@@ -9,26 +9,36 @@ NOTE: This class is the metaphorical "main method" of your program,
 */
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
-class GeometryDash extends Game {
+class GeometryDash extends Game implements KeyListener{
 	static int counter = 0;
-	private Player player;
-	private Ground ground;
-	private Obstacle obstacle;
-	private Platform platform;
-	private boolean gameOver;
+
+	private Level level;
 	
 	public GeometryDash() {
 		super("YourGameName!", 800, 600);
 		this.setFocusable(true);
 		this.requestFocus();
-		this.gameOver = false;
-		player = new Player();
-		ground = new Ground();
-		platform = new Platform(0, 0, 100, 50, 1300);
-		obstacle = new Obstacle(new Point[] {new Point(20, 0), new Point(0, 20), new Point(40, 20)});
 		
-		this.addKeyListener(player);
+		Obstacle[] obstacles = new Obstacle[10];
+		Platform[] platforms = new Platform[10];
+		
+		for (int i = 0; i < 10; i++) {
+			obstacles[i] = new Obstacle(new Point[] {new Point(20, 0), new Point(0, 20), new Point(40, 20)});
+			platforms[i] = new Platform(0, 0, 100, 50, 1300);
+		}
+
+		Point[] obstaclePointsBlueprint = new Point[30], platPointsBlueprint = new Point[30];
+		
+		for (int i = 0; i < 30; i++) {
+			obstaclePointsBlueprint[i] = new Point(1000 + i * 100, 100 + i * 10);
+			platPointsBlueprint[i] = new Point(1000 + i * 100, 100 + i - 10);
+		}
+		level = new Level(obstacles, platforms, obstaclePointsBlueprint, platPointsBlueprint);
+		
+		this.addKeyListener(level.getPlayer());
+		this.addKeyListener(this);
 	}
 
 	public void paint(Graphics brush) {
@@ -39,40 +49,33 @@ class GeometryDash extends Game {
 		// counter is incremented and this message printed
 		// each time the canvas is repainted
 		brush.setColor(Color.white);
-		if (!gameOver) {
-			counter++;
-			brush.drawString("Counter is " + counter, 10, 10);
-			player.paint(brush);
-			ground.paint(brush);
-			obstacle.paint(brush);
-			platform.paint(brush);
-			if (player.collides(obstacle)) {
-				this.gameOver = true;
-			}
-			if (!player.getIsFalling() && !player.isWithinPlatformWidth(platform) && player.position.y < Player.BASE_HEIGHT) {
-				player.setIsFalling(true);
-			}
-			if (player.collides(platform)) {
-				if(player.isAbove(platform)) {
-					player.placeOn(platform);
-					player.setIsFalling(false);
-					player.setVel(0);
-				} else {
-
-					this.gameOver = true;
-				}
-			}
-		} else {
-			Font currentFont = brush.getFont();
-			Font newFont = currentFont.deriveFont(currentFont.getSize() * 8.5F);
-			brush.setFont(newFont);
-			brush.drawString("GAME OVER!!!", 50, 300);
-		}
+		brush.drawString("Conter: " + counter++, 30, 20);
+		level.paintLevel(brush);
 		
 	}
 
 	public static void main(String[] args) {
 		GeometryDash a = new GeometryDash();
 		a.repaint();
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER){
+			level.gameOver = false;
+			level.setLevel();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
