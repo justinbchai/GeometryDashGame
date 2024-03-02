@@ -17,7 +17,7 @@ class GeometryDash extends Game implements KeyListener{
 	private Level level;
 	
 	public GeometryDash() {
-		super("YourGameName!", 800, 600);
+		super("Geometry Dash!", 800, 600);
 		this.setFocusable(true);
 		this.requestFocus();
 		
