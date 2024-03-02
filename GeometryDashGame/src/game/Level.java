@@ -2,9 +2,10 @@ package game;
 
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
+
+import game.Level.Obstacle;
+import game.Level.Platform;
 
 public class Level {
 	Player player;
@@ -19,7 +20,7 @@ public class Level {
 	class Obstacle extends Polygon {
 
 		public Obstacle(Point[] points) {
-			super(points, new Point(850, 400), 0);
+			super(points, new Point(10000, 800), 0);
 			this.placeOnGround();
 		}
 
@@ -36,17 +37,21 @@ public class Level {
 	}
 
 	class Platform extends Polygon {
-		public Platform(double x1, double y1, double x2, double y2, double xOffset) {
-			super(new Point[] { new Point(x1, y1), new Point(x2, y1), new Point(x2, y2), new Point(x1, y2) },
-					new Point(xOffset, 0), 0);
-			this.placeOnGround();
-		}
+		// public Platform(double x1, double y1, double x2, double y2, double xOffset) {
+		// 	super(new Point[] { new Point(x1, y1), new Point(x2, y1), new Point(x2, y2), new Point(x1, y2) },
+		// 			new Point(xOffset, 0), 0);
+		// 	this.placeOnGround();
+		// }
 
-		public Platform(double x1, double y1, double x2, double y2, Point position) {
-			super(new Point[] { new Point(x1, y1), new Point(x2, y1), new Point(x2, y2), new Point(x1, y2) }, position,
+		// public Platform(double x1, double y1, double x2, double y2, Point position) {
+		// 	super(new Point[] { new Point(x1, y1), new Point(x2, y1), new Point(x2, y2), new Point(x1, y2) }, position,
+		// 			0);
+		// }
+
+		public Platform(double x1, double y1, double x2, double y2) {
+			super(new Point[] { new Point(x1, y1), new Point(x2, y1), new Point(x2, y2), new Point(x1, y2) }, new Point(10000, 800),
 					0);
 		}
-
 
 		public void paint(Graphics brush) {
 			Point[] points = this.getPoints();
@@ -61,12 +66,22 @@ public class Level {
 
 	}
 
-	public Level(Obstacle[] obstacles, Platform[] platforms, Point[] obstacleCoordsBlueprint,
-			Point[] platCoordsBlueprint) {
-		this.obstacles = obstacles;
-		this.platforms = platforms;
+	public Level(int numObstacles, int numPlatforms, Point[] obstacleCoordsBlueprint, Point[] platCoordsBlueprint) {
+		obstacles = new Obstacle[numObstacles];
+		platforms = new Platform[numPlatforms];
+
+		for (int i = 0; i < numObstacles; i++) {
+			obstacles[i] = new Obstacle(new Point[] {new Point(20, 0), new Point(0, 20), new Point(40, 20)});
+			
+		}
+		for(int i = 0; i < numPlatforms; i++){
+			platforms[i] = new Platform(0, 0, 50, 50);
+		}
+
 		this.obstacleCoordsBlueprint = obstacleCoordsBlueprint;
 		this.platCoordsBlueprint = platCoordsBlueprint;
+
+
 		this.endScreen = (String str, int xcoord, int ycoord, Graphics brush, float fontSize) -> {
 			brush.setFont(brush.getFont().deriveFont(fontSize));
 			brush.drawString(str, xcoord, ycoord);
@@ -95,7 +110,8 @@ public class Level {
 		};
 		ground = new Ground();
 		gameOver = false;
-
+		clearLevel();
+		setLevel();
 	}
 
 	public void setLevel() {
@@ -108,12 +124,25 @@ public class Level {
 			platformCoords.add(new Point(platCoordsBlueprint[i].x, platCoordsBlueprint[i].y));
 		}
 		for (int i = 0; i < obstacles.length; i++) {
-			obstacles[i].position = obstacleCoords.remove(0);
+			if(obstacleCoords.size() > 0){
+				obstacles[i].position = obstacleCoords.remove(0);
+			} else {
+				moreObstacles = false;
+			}
 		}
 		for (int i = 0; i < platforms.length; i++) {
-			platforms[i].position = platformCoords.remove(0);
+			if(platformCoords.size() > 0){
+				platforms[i].position = platformCoords.remove(0);
+			} else {
+				morePlats = false;
+			}
+			
 		}
-		System.out.println(obstacleCoords.toString());
+		//System.out.println(obstacleCoords.toString());
+	}
+	public void clearLevel(){
+		obstacleCoords.clear();
+		platformCoords.clear();
 	}
 
 	public void paintLevel(Graphics brush) {
@@ -173,8 +202,7 @@ public class Level {
 			} else {
 				endScreen.displayText("GAME OVER!!!", 50, 300, brush, 100F);
 			}
-			obstacleCoords.clear();
-			platformCoords.clear();
+			clearLevel();
 
 		}
 	}

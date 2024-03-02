@@ -21,24 +21,26 @@ class GeometryDash extends Game implements KeyListener{
 		this.setFocusable(true);
 		this.requestFocus();
 		
-		Level.Obstacle[] obstacles = new Level.Obstacle[10];
-		Level.Platform[] platforms = new Level.Platform[10];
-		Point[] obstaclePointsBlueprint = new Point[30], platPointsBlueprint = new Point[30];
-		
-		level = new Level(obstacles, platforms, obstaclePointsBlueprint, platPointsBlueprint);
-		
-		for (int i = 0; i < 10; i++) {
-			level.obstacles[i] = level.new Obstacle(new Point[] {new Point(20, 0), new Point(0, 20), new Point(40, 20)});
-			level.platforms[i] = level.new Platform(0, 0, 100, 50, 1300);
-		}
 
+		Point[] obstaclePointsBlueprint, platPointsBlueprint;
 		
+		obstaclePointsBlueprint = new Point[]{
+			new Point(600, 400),
+			new Point(1100, 400),
+			new Point(1150, 400),
+			new Point(1700, 400),
+			new Point(1750, 400),
+		};
+		platPointsBlueprint = new Point[]{
+			new Point(1800, 400),
+			new Point(2000, 350),
+			new Point(2000, 400),
+			new Point(2200, 400),
+			new Point(2200, 350),
+			new Point(2200, 300),
+		};
 		
-		for (int i = 0; i < 30; i++) {
-			level.obstacleCoordsBlueprint[i] = new Point(1000 + i * 100, 100 + i * 10);
-			level.platCoordsBlueprint[i] = new Point(1000 + i * 100, 100 + i - 10);
-		}
-		
+		level = new Level(10, 15, obstaclePointsBlueprint, platPointsBlueprint);
 		
 		this.addKeyListener(level.player);
 		this.addKeyListener(this);
@@ -54,6 +56,7 @@ class GeometryDash extends Game implements KeyListener{
 		// each time the canvas is repainted
 		brush.setColor(Color.white);
 		brush.drawString("Conter: " + counter++, 30, 20);
+		level.clearLevel();
 		level.paintLevel(brush);
 		
 	}
@@ -71,9 +74,10 @@ class GeometryDash extends Game implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER){
+		if(e.getKeyCode() == KeyEvent.VK_ENTER && (level.gameOver|| level.gameWon)){
 			level.gameOver = false;
 			level.gameWon = false;
+			level.clearLevel();
 			level.setLevel();
 		}
 	}
