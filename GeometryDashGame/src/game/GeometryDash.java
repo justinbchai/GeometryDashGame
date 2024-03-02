@@ -21,24 +21,28 @@ class GeometryDash extends Game implements KeyListener{
 		this.setFocusable(true);
 		this.requestFocus();
 		
-		Obstacle[] obstacles = new Obstacle[10];
-		Platform[] platforms = new Platform[10];
-		
-		for (int i = 0; i < 10; i++) {
-			obstacles[i] = new Obstacle(new Point[] {new Point(20, 0), new Point(0, 20), new Point(40, 20)});
-			platforms[i] = new Platform(0, 0, 100, 50, 1300);
-		}
-
+		Level.Obstacle[] obstacles = new Level.Obstacle[10];
+		Level.Platform[] platforms = new Level.Platform[10];
 		Point[] obstaclePointsBlueprint = new Point[30], platPointsBlueprint = new Point[30];
 		
-		for (int i = 0; i < 30; i++) {
-			obstaclePointsBlueprint[i] = new Point(1000 + i * 100, 100 + i * 10);
-			platPointsBlueprint[i] = new Point(1000 + i * 100, 100 + i - 10);
-		}
 		level = new Level(obstacles, platforms, obstaclePointsBlueprint, platPointsBlueprint);
 		
-		this.addKeyListener(level.getPlayer());
+		for (int i = 0; i < 10; i++) {
+			level.obstacles[i] = level.new Obstacle(new Point[] {new Point(20, 0), new Point(0, 20), new Point(40, 20)});
+			level.platforms[i] = level.new Platform(0, 0, 100, 50, 1300);
+		}
+
+		
+		
+		for (int i = 0; i < 30; i++) {
+			level.obstacleCoordsBlueprint[i] = new Point(1000 + i * 100, 100 + i * 10);
+			level.platCoordsBlueprint[i] = new Point(1000 + i * 100, 100 + i - 10);
+		}
+		
+		
+		this.addKeyListener(level.player);
 		this.addKeyListener(this);
+		level.setLevel();
 	}
 
 	public void paint(Graphics brush) {
@@ -69,6 +73,7 @@ class GeometryDash extends Game implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_ENTER){
 			level.gameOver = false;
+			level.gameWon = false;
 			level.setLevel();
 		}
 	}

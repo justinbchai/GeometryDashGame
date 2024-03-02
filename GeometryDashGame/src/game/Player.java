@@ -49,7 +49,7 @@ public class Player extends Polygon implements KeyListener {
 		return isFalling;
 	}
 	
-	public boolean isWithinPlatformWidth(Platform plat) {
+	public boolean isWithinPlatformWidth(Level.Platform plat) {
 		return (plat.findLeftMostPoint() <= this.findRightmostPoint() && plat.findRightmostPoint() >= this.findLeftMostPoint());
 	}
 	
