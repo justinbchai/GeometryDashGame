@@ -6,9 +6,9 @@ import java.awt.event.KeyListener;
 
 public class Player extends Polygon implements KeyListener {
 	
-	private int vel;
+	protected int vel;
 	public final static int BASE_HEIGHT = 400;
-	private boolean isFalling;
+	protected boolean isFalling;
 	
 	public Player() {
 		super(new Point[] {new Point(0,0), new Point(20,0), new Point(20,20), new Point(0, 20)}, new Point(100, BASE_HEIGHT), 0);
@@ -27,20 +27,6 @@ public class Player extends Polygon implements KeyListener {
 		move();
 	}
 	
-	public void move() {
-		if (isFalling) {
-			this.position.setY(this.position.getY() - vel);
-			vel--;
-			this.rotate(5);
-			if (this.position.getY() >= BASE_HEIGHT) {
-				this.placeOnGround();
-				vel = 0;
-				isFalling = false;
-				this.rotation = 0;
-			}
-		}
-	}
-	
 	public void setIsFalling(boolean falling) {
 		this.isFalling = falling;
 	}
@@ -49,7 +35,7 @@ public class Player extends Polygon implements KeyListener {
 		return isFalling;
 	}
 	
-	public boolean isWithinPlatformWidth(Platform plat) {
+	public boolean isWithinPlatformWidth(Level.Platform plat) {
 		return (plat.findLeftMostPoint() <= this.findRightmostPoint() && plat.findRightmostPoint() >= this.findLeftMostPoint());
 	}
 	

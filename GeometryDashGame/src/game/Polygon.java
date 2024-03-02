@@ -143,6 +143,10 @@ class Polygon {
 		return ans;
 	}
 	
+	public void move() {
+		this.position.x -= 5;
+	}
+	
 	// student written
 	public double findHighestPoint() {
 		double ans = 1000;
