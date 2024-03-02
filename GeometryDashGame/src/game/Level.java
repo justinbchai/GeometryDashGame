@@ -23,10 +23,6 @@ public class Level {
 			this.placeOnGround();
 		}
 
-		public void move() {
-			this.position.x -= 5;
-		}
-
 		public void paint(Graphics brush) {
 			Point[] points = this.getPoints();
 			int[] xPoints = new int[points.length], yPoints = new int[points.length];
@@ -51,9 +47,6 @@ public class Level {
 					0);
 		}
 
-		public void move() {
-			this.position.x -= 5;
-		}
 
 		public void paint(Graphics brush) {
 			Point[] points = this.getPoints();
@@ -85,7 +78,21 @@ public class Level {
 		platformCoords = new ArrayList<>();
 		moreObstacles = true;
 		morePlats = true;
-		player = new Player();
+		player = new Player() {
+			public void move() {
+				if (isFalling) {
+					this.position.setY(this.position.getY() - vel);
+					vel--;
+					this.rotate(5);
+					if (this.position.getY() >= BASE_HEIGHT) {
+						this.placeOnGround();
+						vel = 0;
+						isFalling = false;
+						this.rotation = 0;
+					}
+				}
+			}
+		};
 		ground = new Ground();
 		gameOver = false;
 
