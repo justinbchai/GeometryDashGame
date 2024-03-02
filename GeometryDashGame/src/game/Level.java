@@ -10,8 +10,9 @@ public class Level {
 	Obstacle[] obstacles;
 	Platform[] platforms;
 	ArrayList<Point> obstacleCoords, platformCoords;
-	boolean moreObstacles, morePlats, gameOver;
+	boolean moreObstacles, morePlats, gameOver, gameWon;
 	Point[] obstacleCoordsBlueprint, platCoordsBlueprint;
+	TextElement endScreen;
 
 	public Level(Obstacle[] obstacles, Platform[] platforms, Point[] obstacleCoordsBlueprint,
 			Point[] platCoordsBlueprint) {
@@ -19,6 +20,12 @@ public class Level {
 		this.platforms = platforms;
 		this.obstacleCoordsBlueprint = obstacleCoordsBlueprint;
 		this.platCoordsBlueprint = platCoordsBlueprint;
+		this.endScreen = (String str, int xcoord, int ycoord, Graphics brush, float fontSize) -> {
+			brush.setFont(brush.getFont().deriveFont(fontSize));
+			brush.drawString(str, xcoord, ycoord);
+			brush.setFont(brush.getFont().deriveFont(50F));
+			brush.drawString("Press ENTER to play again.", 80, 400);
+		};
 
 		obstacleCoords = new ArrayList<>();
 		platformCoords = new ArrayList<>();
@@ -87,19 +94,25 @@ public class Level {
 					if (plat.findRightmostPoint() <= 0) {
 						if (platformCoords.size() > 0) {
 							plat.position = platformCoords.remove(0);
-
 						} else {
 							morePlats = false;
 						}
-
 					}
 					plat.paint(brush);
 				}
+				if (!moreObstacles && !morePlats && !elementsOnScreen() && !gameOver) {
+					gameOver = true;
+					gameWon = true;
+				}
 		} else {
-			Font currentFont = brush.getFont();
+			/*Font currentFont = brush.getFont();
 			Font newFont = currentFont.deriveFont(currentFont.getSize() * 8.5F);
-			brush.setFont(newFont);
-			brush.drawString("GAME OVER!!!", 50, 300);
+			brush.setFont(newFont);*/
+			if (gameWon) {
+				endScreen.displayText("LEVEL COMPLETE!!!", 25, 300, brush, 75F);
+			} else {
+				endScreen.displayText("GAME OVER!!!", 50, 300, brush, 100F);
+			}
 			obstacleCoords.clear();
 			platformCoords.clear();
 
@@ -108,6 +121,20 @@ public class Level {
 
 	public Player getPlayer() {
 		return this.player;
+	}
+	
+	private boolean elementsOnScreen() {
+		for (Obstacle ob : obstacles) {
+			if (ob.findRightmostPoint() > 0) {
+				return true;
+			}
+		}
+		for (Platform pl : platforms) {
+			if (pl.findRightmostPoint() > 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
