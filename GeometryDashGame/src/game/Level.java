@@ -75,7 +75,7 @@ public class Level {
 			
 		}
 		for(int i = 0; i < numPlatforms; i++){
-			platforms[i] = new Platform(0, 0, 50, 50);
+			platforms[i] = new Platform(0, 0, 500, 50); //change back later
 		}
 
 		this.obstacleCoordsBlueprint = obstacleCoordsBlueprint;
