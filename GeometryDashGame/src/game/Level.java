@@ -151,7 +151,9 @@ public class Level {
 		if (!gameOver) {
 			player.paint(brush);
 			ground.paint(brush);
-
+			if(player.collides(ground)){
+				player.canJump = true;
+			}
 			for (Obstacle obstacle : obstacles) {
 				if (player.collides(obstacle)) {
 					this.gameOver = true;
@@ -174,6 +176,7 @@ public class Level {
 						player.placeOn(plat);
 						player.position.y--;
 						System.out.println(player.collides(plat));
+						player.canJump = true;
 						player.vel = 0;
 						player.isFalling = false;
 						player.rotation = 0;
