@@ -9,11 +9,12 @@ public class Player extends Polygon implements KeyListener {
 	protected int vel;
 	public final static int BASE_HEIGHT = 400;
 	protected boolean isFalling;
-	
+	protected boolean canJump;
 	public Player() {
 		super(new Point[] {new Point(0,0), new Point(20,0), new Point(20,20), new Point(0, 20)}, new Point(100, BASE_HEIGHT), 0);
 		vel = 0;
 		isFalling = false;
+		canJump = true;
 	}
 	
 	public void paint(Graphics brush) {
@@ -36,7 +37,11 @@ public class Player extends Polygon implements KeyListener {
 	}
 	
 	public boolean isWithinPlatformWidth(Level.Platform plat) {
-		return (plat.findLeftMostPoint() <= this.findRightmostPoint() && plat.findRightmostPoint() >= this.findLeftMostPoint());
+		// return this.findCenter().x > plat.findLeftMostPoint() && this.findCenter().x < plat.findRightmostPoint();
+		// return (plat.findLeftMostPoint() < this.findRightmostPoint() && plat.findRightmostPoint() > this.findLeftMostPoint());
+		double playerLeft = this.findLeftMostPoint(), playerRight = this.findRightmostPoint();
+		double platLeft = plat.findLeftMostPoint(), platRight = plat.findRightmostPoint();
+		return (playerLeft > platLeft && playerLeft < platRight) || (playerRight > platLeft && playerRight < platRight);
 	}
 	
 	public void setVel(int vel) {
@@ -53,9 +58,10 @@ public class Player extends Polygon implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
 		if (code == KeyEvent.VK_SPACE || code == KeyEvent.VK_UP || code == KeyEvent.VK_W) {
-			if (!isFalling) {
+			if (canJump) {
 				isFalling = true;
 				vel = 18;
+				canJump = false;
 			}
 		}
 		

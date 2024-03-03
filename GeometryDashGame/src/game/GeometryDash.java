@@ -21,27 +21,72 @@ class GeometryDash extends Game implements KeyListener{
 		this.setFocusable(true);
 		this.requestFocus();
 		
-		Level.Obstacle[] obstacles = new Level.Obstacle[10];
-		Level.Platform[] platforms = new Level.Platform[10];
-		Point[] obstaclePointsBlueprint = new Point[30], platPointsBlueprint = new Point[30];
-		
-		level = new Level(obstacles, platforms, obstaclePointsBlueprint, platPointsBlueprint);
-		
-		for (int i = 0; i < 10; i++) {
-			level.obstacles[i] = level.new Obstacle(new Point[] {new Point(20, 0), new Point(0, 20), new Point(40, 20)});
-			level.platforms[i] = level.new Platform(0, 0, 100, 50, 1300);
-		}
+		Point[] stereoMadnessObst = new Point[]{
+			new Point(600, 400),
+			new Point(1100, 400),
+			new Point(1150, 400),
+			new Point(1700, 400),
+			new Point(1750, 400),
+			new Point(2000, 400),
+			new Point(2200, 400),
+			new Point(2200, 350),
+			new Point(2950, 375),
+			new Point(3150, 400),
+			new Point(3200, 400),
+		};
+		Point[] stereoMadnessPlat = new Point[]{
+			new Point(1800, 400),
+			new Point(2000, 350),
+			new Point(2200, 300),
 
+			new Point(2800, 400),
+			new Point(2850, 400),
+			new Point(2900, 400),
+			new Point(2950, 400),
+			new Point(3000, 400),
+			new Point(3050, 400),
+			new Point(3100, 400), // 10
 		
+			new Point(3250, 400),
+			new Point(3300, 400),
+			new Point(3350, 400), 
+			new Point(3400, 400),
+			new Point(3450, 400),
+			new Point(3500, 400),
+			new Point(3550, 400), 
+			new Point(3600, 400),
+			new Point(3650, 400),
+			new Point(3700, 400),
+			new Point(3750, 400), //21
+
+		};
 		
-		for (int i = 0; i < 30; i++) {
-			level.obstacleCoordsBlueprint[i] = new Point(1000 + i * 100, 100 + i * 10);
-			level.platCoordsBlueprint[i] = new Point(1000 + i * 100, 100 + i - 10);
-		}
-		
+		Point[] testObst = new Point[]{
+			new Point(600, 400),
+			new Point(700, 400),
+			
+			new Point(1000, 400),
+			new Point(1300, 400),
+
+			new Point(1400, 400),
+			new Point(1450, 400),
+		};
+		Point[] testPlat = new Point[]{
+			new Point(1000, 400),
+			new Point(1050, 350),
+			new Point(1100, 350),
+
+			new Point(1300, 200),
+			new Point(1350, 200),
+			new Point(1400, 200),
+			new Point(1450, 200),
+
+		};
+		level = new Level(10, 22, testObst, testPlat);
 		
 		this.addKeyListener(level.player);
 		this.addKeyListener(this);
+		level.clearLevel();
 		level.setLevel();
 	}
 
@@ -54,6 +99,7 @@ class GeometryDash extends Game implements KeyListener{
 		// each time the canvas is repainted
 		brush.setColor(Color.white);
 		brush.drawString("Conter: " + counter++, 30, 20);
+		level.clearLevel();
 		level.paintLevel(brush);
 		
 	}
@@ -71,9 +117,10 @@ class GeometryDash extends Game implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER){
+		if(e.getKeyCode() == KeyEvent.VK_ENTER && (level.gameOver|| level.gameWon)){
 			level.gameOver = false;
 			level.gameWon = false;
+			level.clearLevel();
 			level.setLevel();
 		}
 	}

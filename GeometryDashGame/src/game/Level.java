@@ -2,9 +2,10 @@ package game;
 
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
+
+import game.Level.Obstacle;
+import game.Level.Platform;
 
 public class Level {
 	Player player;
@@ -19,7 +20,7 @@ public class Level {
 	class Obstacle extends Polygon {
 
 		public Obstacle(Point[] points) {
-			super(points, new Point(850, 400), 0);
+			super(points, new Point(600, 400), 0);
 			this.placeOnGround();
 		}
 
@@ -36,17 +37,21 @@ public class Level {
 	}
 
 	class Platform extends Polygon {
-		public Platform(double x1, double y1, double x2, double y2, double xOffset) {
-			super(new Point[] { new Point(x1, y1), new Point(x2, y1), new Point(x2, y2), new Point(x1, y2) },
-					new Point(xOffset, 0), 0);
-			this.placeOnGround();
-		}
+		// public Platform(double x1, double y1, double x2, double y2, double xOffset) {
+		// 	super(new Point[] { new Point(x1, y1), new Point(x2, y1), new Point(x2, y2), new Point(x1, y2) },
+		// 			new Point(xOffset, 0), 0);
+		// 	this.placeOnGround();
+		// }
 
-		public Platform(double x1, double y1, double x2, double y2, Point position) {
-			super(new Point[] { new Point(x1, y1), new Point(x2, y1), new Point(x2, y2), new Point(x1, y2) }, position,
+		// public Platform(double x1, double y1, double x2, double y2, Point position) {
+		// 	super(new Point[] { new Point(x1, y1), new Point(x2, y1), new Point(x2, y2), new Point(x1, y2) }, position,
+		// 			0);
+		// }
+
+		public Platform(double x1, double y1, double x2, double y2) {
+			super(new Point[] { new Point(x1, y1), new Point(x2, y1), new Point(x2, y2), new Point(x1, y2) }, new Point(1800, 400),
 					0);
 		}
-
 
 		public void paint(Graphics brush) {
 			Point[] points = this.getPoints();
@@ -61,12 +66,22 @@ public class Level {
 
 	}
 
-	public Level(Obstacle[] obstacles, Platform[] platforms, Point[] obstacleCoordsBlueprint,
-			Point[] platCoordsBlueprint) {
-		this.obstacles = obstacles;
-		this.platforms = platforms;
+	public Level(int numObstacles, int numPlatforms, Point[] obstacleCoordsBlueprint, Point[] platCoordsBlueprint) {
+		obstacles = new Obstacle[numObstacles];
+		platforms = new Platform[numPlatforms];
+
+		for (int i = 0; i < numObstacles; i++) {
+			obstacles[i] = new Obstacle(new Point[] {new Point(20, 0), new Point(0, 20), new Point(40, 20)});
+			
+		}
+		for(int i = 0; i < numPlatforms; i++){
+			platforms[i] = new Platform(0, 0, 50, 50); //change back later
+		}
+
 		this.obstacleCoordsBlueprint = obstacleCoordsBlueprint;
 		this.platCoordsBlueprint = platCoordsBlueprint;
+
+
 		this.endScreen = (String str, int xcoord, int ycoord, Graphics brush, float fontSize) -> {
 			brush.setFont(brush.getFont().deriveFont(fontSize));
 			brush.drawString(str, xcoord, ycoord);
@@ -79,6 +94,7 @@ public class Level {
 		moreObstacles = true;
 		morePlats = true;
 		player = new Player() {
+			@Override
 			public void move() {
 				if (isFalling) {
 					this.position.setY(this.position.getY() - vel);
@@ -95,7 +111,8 @@ public class Level {
 		};
 		ground = new Ground();
 		gameOver = false;
-
+		clearLevel();
+		setLevel();
 	}
 
 	public void setLevel() {
@@ -108,12 +125,33 @@ public class Level {
 			platformCoords.add(new Point(platCoordsBlueprint[i].x, platCoordsBlueprint[i].y));
 		}
 		for (int i = 0; i < obstacles.length; i++) {
-			obstacles[i].position = obstacleCoords.remove(0);
+			if(obstacleCoords.size() > 0){
+				obstacles[i].position = obstacleCoords.remove(0);
+			} /*else {
+				moreObstacles = false;
+			}*/
 		}
 		for (int i = 0; i < platforms.length; i++) {
-			platforms[i].position = platformCoords.remove(0);
+			if(platformCoords.size() > 0){
+				platforms[i].position = platformCoords.remove(0);
+			} /*else {
+				morePlats = false;
+			}*/
+			
 		}
-		System.out.println(obstacleCoords.toString());
+		//System.out.println(obstacleCoords.toString());
+	}
+
+	public void clearLevel(){
+		obstacleCoords.clear();
+		platformCoords.clear();
+		/* for(Platform p : platforms){
+			p.position = new Point(1000,1000);
+		}
+		for(Obstacle o : obstacles){
+			o.position = new Point(1000,1000);
+		}*/
+		
 	}
 
 	public void paintLevel(Graphics brush) {
@@ -121,7 +159,9 @@ public class Level {
 		if (!gameOver) {
 			player.paint(brush);
 			ground.paint(brush);
-
+			if(player.collides(ground)){
+				player.canJump = true;
+			}
 			for (Obstacle obstacle : obstacles) {
 				if (player.collides(obstacle)) {
 					this.gameOver = true;
@@ -137,17 +177,20 @@ public class Level {
 				obstacle.paint(brush);
 			}
 			for (Platform plat : platforms) {
-				if (!player.getIsFalling() && !player.isWithinPlatformWidth(plat)
-						&& player.position.y < Player.BASE_HEIGHT) {
-					player.setIsFalling(true);
-				}
+				
 				if (player.collides(plat)) {
-					if (player.isAbove(plat)) {
+					//System.out.println(player.isFalling);
+					if (isAbove(player, plat)) {
 						player.placeOn(plat);
-						player.setIsFalling(false);
-						player.setVel(0);
+						player.position.y--;
+						System.out.println(player.collides(plat));
+						player.canJump = true;
+						player.vel = 0;
+						player.isFalling = false;
+						player.rotation = 0;
 					} else {
 						this.gameOver = true;
+						break;
 					}
 				}
 				if (plat.findRightmostPoint() <= 0) {
@@ -156,6 +199,12 @@ public class Level {
 					} else {
 						morePlats = false;
 					}
+				}
+				
+				if (!player.getIsFalling() && !player.isWithinPlatformWidth(plat)
+						&& player.position.y < Player.BASE_HEIGHT) {
+					System.out.println("Plat left: " + plat.findLeftMostPoint() + "Plat right: " + plat.findRightmostPoint() + "Player x: " + player.position.x);
+					player.setIsFalling(true);
 				}
 				plat.paint(brush);
 			}
@@ -173,8 +222,7 @@ public class Level {
 			} else {
 				endScreen.displayText("GAME OVER!!!", 50, 300, brush, 100F);
 			}
-			obstacleCoords.clear();
-			platformCoords.clear();
+			clearLevel();
 
 		}
 	}
@@ -192,6 +240,11 @@ public class Level {
 			}
 		}
 		return false;
+	}
+	
+	//student written
+	private static boolean isAbove(Polygon poly, Polygon other) {
+		return (poly.position.y < other.position.y);
 	}
 	
 }
