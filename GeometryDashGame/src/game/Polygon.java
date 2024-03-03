@@ -122,7 +122,7 @@ class Polygon {
 	}
 
 	// "findCenter" implements another bit of math.
-	private Point findCenter() {
+	public Point findCenter() {
 		Point sum = new Point(0, 0);
 		for (int i = 0, j = 1; i < shape.length; i++, j = (j + 1) % shape.length) {
 			sum.x += (shape[i].x + shape[j].x) * (shape[i].x * shape[j].y - shape[j].x * shape[i].y);
@@ -178,11 +178,6 @@ class Polygon {
 			}
 		}
 		return ans;
-	}
-	
-	//student written
-	public boolean isAbove(Polygon other) {
-		return (this.position.y < other.position.y);
 	}
 
 }

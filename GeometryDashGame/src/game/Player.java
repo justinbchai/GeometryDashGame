@@ -36,7 +36,11 @@ public class Player extends Polygon implements KeyListener {
 	}
 	
 	public boolean isWithinPlatformWidth(Level.Platform plat) {
-		return (plat.findLeftMostPoint() <= this.findRightmostPoint() && plat.findRightmostPoint() >= this.findLeftMostPoint());
+		// return this.findCenter().x > plat.findLeftMostPoint() && this.findCenter().x < plat.findRightmostPoint();
+		// return (plat.findLeftMostPoint() < this.findRightmostPoint() && plat.findRightmostPoint() > this.findLeftMostPoint());
+		double playerLeft = this.findLeftMostPoint(), playerRight = this.findRightmostPoint();
+		double platLeft = plat.findLeftMostPoint(), platRight = plat.findRightmostPoint();
+		return (playerLeft > platLeft && playerLeft < platRight) || (playerRight > platLeft && playerRight < platRight);
 	}
 	
 	public void setVel(int vel) {

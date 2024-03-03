@@ -75,7 +75,7 @@ public class Level {
 			
 		}
 		for(int i = 0; i < numPlatforms; i++){
-			platforms[i] = new Platform(0, 0, 500, 50); //change back later
+			platforms[i] = new Platform(0, 0, 50, 50); //change back later
 		}
 
 		this.obstacleCoordsBlueprint = obstacleCoordsBlueprint;
@@ -94,6 +94,7 @@ public class Level {
 		moreObstacles = true;
 		morePlats = true;
 		player = new Player() {
+			@Override
 			public void move() {
 				if (isFalling) {
 					this.position.setY(this.position.getY() - vel);
@@ -126,16 +127,16 @@ public class Level {
 		for (int i = 0; i < obstacles.length; i++) {
 			if(obstacleCoords.size() > 0){
 				obstacles[i].position = obstacleCoords.remove(0);
-			} else {
+			} /*else {
 				moreObstacles = false;
-			}
+			}*/
 		}
 		for (int i = 0; i < platforms.length; i++) {
 			if(platformCoords.size() > 0){
 				platforms[i].position = platformCoords.remove(0);
-			} else {
+			} /*else {
 				morePlats = false;
-			}
+			}*/
 			
 		}
 		//System.out.println(obstacleCoords.toString());
@@ -166,17 +167,19 @@ public class Level {
 				obstacle.paint(brush);
 			}
 			for (Platform plat : platforms) {
-				if (!player.getIsFalling() && !player.isWithinPlatformWidth(plat)
-						&& player.position.y < Player.BASE_HEIGHT) {
-					player.setIsFalling(true);
-				}
+				
 				if (player.collides(plat)) {
-					if (player.isAbove(plat)) {
+					//System.out.println(player.isFalling);
+					if (isAbove(player, plat)) {
 						player.placeOn(plat);
-						player.setIsFalling(false);
-						player.setVel(0);
+						player.position.y--;
+						System.out.println(player.collides(plat));
+						player.vel = 0;
+						player.isFalling = false;
+						player.rotation = 0;
 					} else {
 						this.gameOver = true;
+						break;
 					}
 				}
 				if (plat.findRightmostPoint() <= 0) {
@@ -185,6 +188,12 @@ public class Level {
 					} else {
 						morePlats = false;
 					}
+				}
+				
+				if (!player.getIsFalling() && !player.isWithinPlatformWidth(plat)
+						&& player.position.y < Player.BASE_HEIGHT) {
+					System.out.println("Plat left: " + plat.findLeftMostPoint() + "Plat right: " + plat.findRightmostPoint() + "Player x: " + player.position.x);
+					player.setIsFalling(true);
 				}
 				plat.paint(brush);
 			}
@@ -220,6 +229,11 @@ public class Level {
 			}
 		}
 		return false;
+	}
+	
+	//student written
+	private static boolean isAbove(Polygon poly, Polygon other) {
+		return (poly.position.y < other.position.y);
 	}
 	
 }
