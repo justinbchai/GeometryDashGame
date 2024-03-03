@@ -20,7 +20,7 @@ public class Level {
 	class Obstacle extends Polygon {
 
 		public Obstacle(Point[] points) {
-			super(points, new Point(10000, 800), 0);
+			super(points, new Point(600, 400), 0);
 			this.placeOnGround();
 		}
 
@@ -49,7 +49,7 @@ public class Level {
 		// }
 
 		public Platform(double x1, double y1, double x2, double y2) {
-			super(new Point[] { new Point(x1, y1), new Point(x2, y1), new Point(x2, y2), new Point(x1, y2) }, new Point(10000, 800),
+			super(new Point[] { new Point(x1, y1), new Point(x2, y1), new Point(x2, y2), new Point(x1, y2) }, new Point(1800, 400),
 					0);
 		}
 
@@ -141,9 +141,17 @@ public class Level {
 		}
 		//System.out.println(obstacleCoords.toString());
 	}
+
 	public void clearLevel(){
 		obstacleCoords.clear();
 		platformCoords.clear();
+		/* for(Platform p : platforms){
+			p.position = new Point(1000,1000);
+		}
+		for(Obstacle o : obstacles){
+			o.position = new Point(1000,1000);
+		}*/
+		
 	}
 
 	public void paintLevel(Graphics brush) {

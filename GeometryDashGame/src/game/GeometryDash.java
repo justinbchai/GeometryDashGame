@@ -21,29 +21,72 @@ class GeometryDash extends Game implements KeyListener{
 		this.setFocusable(true);
 		this.requestFocus();
 		
-
-		Point[] obstaclePointsBlueprint, platPointsBlueprint;
-		
-		obstaclePointsBlueprint = new Point[]{
+		Point[] stereoMadnessObst = new Point[]{
 			new Point(600, 400),
 			new Point(1100, 400),
 			new Point(1150, 400),
 			new Point(1700, 400),
 			new Point(1750, 400),
-		};
-		platPointsBlueprint = new Point[]{
-			new Point(1800, 400),
-			new Point(2000, 350),
 			new Point(2000, 400),
 			new Point(2200, 400),
 			new Point(2200, 350),
+			new Point(2950, 375),
+			new Point(3150, 400),
+			new Point(3200, 400),
+		};
+		Point[] stereoMadnessPlat = new Point[]{
+			new Point(1800, 400),
+			new Point(2000, 350),
 			new Point(2200, 300),
+
+			new Point(2800, 400),
+			new Point(2850, 400),
+			new Point(2900, 400),
+			new Point(2950, 400),
+			new Point(3000, 400),
+			new Point(3050, 400),
+			new Point(3100, 400), // 10
+		
+			new Point(3250, 400),
+			new Point(3300, 400),
+			new Point(3350, 400), 
+			new Point(3400, 400),
+			new Point(3450, 400),
+			new Point(3500, 400),
+			new Point(3550, 400), 
+			new Point(3600, 400),
+			new Point(3650, 400),
+			new Point(3700, 400),
+			new Point(3750, 400), //21
+
 		};
 		
-		level = new Level(10, 15, obstaclePointsBlueprint, platPointsBlueprint);
+		Point[] testObst = new Point[]{
+			new Point(600, 400),
+			new Point(700, 400),
+			
+			new Point(1000, 400),
+			new Point(1300, 400),
+
+			new Point(1400, 400),
+			new Point(1450, 400),
+		};
+		Point[] testPlat = new Point[]{
+			new Point(1000, 400),
+			new Point(1050, 350),
+			new Point(1100, 350),
+
+			new Point(1300, 200),
+			new Point(1350, 200),
+			new Point(1400, 200),
+			new Point(1450, 200),
+
+		};
+		level = new Level(10, 22, testObst, testPlat);
 		
 		this.addKeyListener(level.player);
 		this.addKeyListener(this);
+		level.clearLevel();
 		level.setLevel();
 	}
 
