@@ -27,17 +27,71 @@ class GeometryDash extends Game implements KeyListener{
 			new Point(1150, 400),
 			new Point(1700, 400),
 			new Point(1750, 400),
-			new Point(2000, 400),
-			new Point(2200, 400),
-			new Point(2200, 350),
+
+			
+			new Point(1975, 400),
+			new Point(2175, 400),
+			new Point(1975, 400),
+			new Point(2050, 400),
+			new Point(2100, 400),
+			new Point(2175, 400),
+
+
 			new Point(2950, 375),
+
 			new Point(3150, 400),
 			new Point(3200, 400),
+
+			new Point(3500, 375),
+
+			new Point(3950, 400),
+			new Point(4650, 400), 
+
+			new Point(4300, 325),
+
+			new Point(4750, 400), 
+			new Point(4800, 400), 
+			new Point(4850, 400), 
+			new Point(4900, 400), 
+			new Point(4950, 400), 
+			new Point(5000, 400), 
+			new Point(5050, 400), 
+			new Point(5100, 400), 
+			new Point(5150, 400), 
+			new Point(5200, 400), 
+			new Point(5250, 400), 
+			new Point(5300, 400), 
+			
+			new Point(5350, 400),
+			new Point(5400, 400),
+			new Point(5450, 400), 
+			new Point(5500, 400),
+			new Point(5550, 400),
+			new Point(5600, 400),
+			new Point(5650, 400), 
+			
+			new Point(5700, 400),
+			new Point(5750, 400),
+			new Point(5800, 400),
+			new Point(5850, 400),
+			new Point(5900, 400),
+			new Point(5950, 400),
+		
+
+			new Point(6150, 325),
+			new Point(6200, 325),
+			new Point(6250, 325), 
+			new Point(6300, 325),
+
+			new Point(6700, 350),
+			new Point(6750, 350),
+			new Point(6800, 350), 
+			new Point(6850, 350),
 		};
 		Point[] stereoMadnessPlat = new Point[]{
 			new Point(1800, 400),
-			new Point(2000, 350),
-			new Point(2200, 300),
+			new Point(1975, 350),
+			new Point(2175, 300),
 
 			new Point(2800, 400),
 			new Point(2850, 400),
@@ -59,6 +113,59 @@ class GeometryDash extends Game implements KeyListener{
 			new Point(3700, 400),
 			new Point(3750, 400), //21
 
+			new Point(3950, 350),
+			new Point(4000, 350),
+			new Point(4050, 350), 
+			new Point(4100, 350),
+			new Point(4150, 350),
+			new Point(4200, 350),
+			new Point(4250, 350), 
+			new Point(4300, 350),
+			new Point(4350, 350),
+			new Point(4400, 350),
+			new Point(4450, 350), 
+			new Point(4500, 350),
+			new Point(4550, 350),
+			new Point(4600, 350),
+			new Point(4650, 350), 
+
+			new Point(4850, 300), 
+			new Point(5050, 275), 
+			new Point(5250, 250), 
+			new Point(5450, 225), 
+			new Point(5650, 200), 
+
+
+			new Point(5850, 350),
+			new Point(5900, 350),
+			new Point(5950, 350), 
+			new Point(6000, 350),
+			new Point(6050, 350), 
+			new Point(6100, 350),
+
+			
+			new Point(6200, 275),
+			new Point(6250, 275), 
+			
+
+			new Point(6350, 350),
+			new Point(6400, 350),
+			new Point(6450, 350), 
+			new Point(6500, 350),
+			new Point(6550, 350),
+			new Point(6600, 350),
+			new Point(6650, 350),
+
+			new Point(6750, 275),
+			new Point(6800, 275), 
+
+			
+			new Point(6900, 350),
+			new Point(6950, 350), 
+			new Point(7000, 350),
+			new Point(7050, 350), 
+			new Point(7100, 350),
+			new Point(7250, 350),
 		};
 		
 		Point[] testObst = new Point[]{
@@ -82,7 +189,7 @@ class GeometryDash extends Game implements KeyListener{
 			new Point(1450, 200),
 
 		};
-		level = new Level(10, 22, testObst, testPlat);
+		level = new Level(stereoMadnessObst, stereoMadnessPlat);
 		
 		this.addKeyListener(level.player);
 		this.addKeyListener(this);
