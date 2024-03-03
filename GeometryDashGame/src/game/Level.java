@@ -182,7 +182,6 @@ public class Level {
 					//System.out.println(player.isFalling);
 					if (isAbove(player, plat)) {
 						player.placeOn(plat);
-						player.position.y--;
 						System.out.println(player.collides(plat));
 						player.canJump = true;
 						player.vel = 0;
