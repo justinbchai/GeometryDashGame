@@ -138,15 +138,15 @@ public class Level {
 	 * @param obstacleCoordsBlueprint The shape of the obstacles.
 	 * @param platCoordsBlueprint The shape of the platforms.
 	 */
-	public Level(int numObstacles, int numPlatforms, Point[] obstacleCoordsBlueprint, Point[] platCoordsBlueprint) {
-		obstacles = new Obstacle[numObstacles];
-		platforms = new Platform[numPlatforms];
+	public Level(Point[] obstacleCoordsBlueprint, Point[] platCoordsBlueprint) {
+		obstacles = new Obstacle[obstacleCoordsBlueprint.length];
+		platforms = new Platform[platCoordsBlueprint.length];
 
-		for (int i = 0; i < numObstacles; i++) {
+		for (int i = 0; i < obstacles.length; i++) {
 			obstacles[i] = new Obstacle(new Point[] {new Point(20, 0), new Point(0, 20), new Point(40, 20)});
 			
 		}
-		for(int i = 0; i < numPlatforms; i++){
+		for(int i = 0; i < platforms.length; i++){
 			platforms[i] = new Platform(0, 0, 50, 50); //change back later
 		}
 
@@ -264,7 +264,8 @@ public class Level {
 				}
 				if (obstacle.findRightmostPoint() <= 0) {
 					if (obstacleCoords.size() > 0) {
-						obstacle.position = obstacleCoords.remove(0);
+					//	obstacle.position = 
+						obstacleCoords.remove(0);
 					} else {
 						moreObstacles = false;
 					}
@@ -288,7 +289,8 @@ public class Level {
 				}
 				if (plat.findRightmostPoint() <= 0) {
 					if (platformCoords.size() > 0) {
-						plat.position = platformCoords.remove(0);
+						//plat.position = 
+						platformCoords.remove(0);
 					} else {
 						morePlats = false;
 					}
