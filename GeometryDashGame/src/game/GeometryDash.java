@@ -165,7 +165,7 @@ class GeometryDash extends Game implements KeyListener{
 			new Point(7000, 350),
 			new Point(7050, 350), 
 			new Point(7100, 350),
-			new Point(7250, 350),
+			new Point(7150, 350),
 		};
 		
 		Point[] testObst = new Point[]{
