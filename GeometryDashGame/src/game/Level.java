@@ -133,8 +133,6 @@ public class Level {
 	 * player, ground, obstacle coordinates, and platform coordinates. The {@link #move()}
 	 * method for player is overwritten using an anonymous class to provide functionality
 	 * for jumping. 
-	 * @param numObstacles The number of obstacles.
-	 * @param numPlatforms The number of platforms.
 	 * @param obstacleCoordsBlueprint The shape of the obstacles.
 	 * @param platCoordsBlueprint The shape of the platforms.
 	 */
